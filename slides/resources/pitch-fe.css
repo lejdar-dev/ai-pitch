@@ -1,0 +1,128 @@
+/* ==========================================================================
+   Pitch — Frontend workflow & AI (slides 38–44)
+   Builds on slides-common.css: only the pieces the frontend part adds —
+   progress header, category colors, graph nodes, mocks and step controls.
+   ========================================================================== */
+
+.s {
+  --cat-admin: #a78bfa;
+  --cat-ctx:   #60a5fa;
+  --cat-grill: #f59e0b;
+  --cat-learn: #4ade80;
+}
+
+/* ── Progress header — the three promises from the intro slide ───────────── */
+.wfhdr {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 6;
+  display: flex; justify-content: center; gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  background: linear-gradient(180deg, rgba(8,6,20,0.9), transparent);
+}
+.wfhdr span {
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 25px; padding: 0.28rem 0.85rem;
+  white-space: nowrap; transition: all 0.35s ease;
+}
+.wfhdr span.on {
+  color: #fbbf24;
+  background: rgba(245,158,11,0.1);
+  border-color: rgba(245,158,11,0.35);
+}
+body > .s.wf { padding-top: 3.6rem; padding-bottom: 1.5rem; }
+.s.wf h2 { font-size: 1.9rem; margin-bottom: 1.1rem; }
+.s.wf h2::after { width: 70px; height: 3px; margin-top: 0.55rem; }
+
+/* ── Tooltips ────────────────────────────────────────────────────────────── */
+.s [data-tip] { position: relative; }
+.s [data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute; left: 50%; bottom: calc(100% + 10px);
+  transform: translateX(-50%);
+  width: max-content; max-width: 250px;
+  background: rgba(8,6,20,0.97);
+  border: 1px solid rgba(124,58,237,0.45);
+  border-radius: 10px; padding: 0.5rem 0.7rem;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.8rem; font-weight: 400; line-height: 1.45;
+  letter-spacing: 0; text-transform: none; text-align: left;
+  white-space: normal; z-index: 30;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* ── Step controls — clickable slides ───────────────────────────────────── */
+.s .stepbar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.8rem; margin-top: 1rem;
+  color: rgba(255,255,255,0.3); font-size: 0.8rem;
+}
+.s .dots { display: flex; gap: 0.4rem; }
+.s .dots i {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.18); transition: all 0.3s ease;
+}
+.s .dots i.on { background: #f59e0b; box-shadow: 0 0 12px rgba(245,158,11,0.8); }
+.s .btn {
+  font: inherit; font-size: 0.82rem; font-weight: 700;
+  color: rgba(255,255,255,0.7); cursor: pointer;
+  background: rgba(124,58,237,0.14);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 25px; padding: 0.35rem 0.9rem;
+  transition: all 0.25s ease;
+}
+.s .btn:hover { background: rgba(124,58,237,0.26); color: #fff; transform: translateY(-1px); }
+.s .btn.on { background: rgba(245,158,11,0.18); border-color: rgba(245,158,11,0.45); color: #fbbf24; }
+.s .btn:disabled { opacity: 0.35; cursor: default; transform: none; }
+
+/* ── Category chips & legend ─────────────────────────────────────────────── */
+.s .cat {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.82rem; font-weight: 700;
+  border: 1px solid; border-radius: 25px;
+  padding: 0.35rem 0.85rem; cursor: pointer;
+  transition: all 0.25s ease; white-space: nowrap;
+}
+.s .cat:hover { transform: translateX(-3px); }
+.s .cat .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.s .cat.admin { color: var(--cat-admin); border-color: rgba(167,139,250,0.4); background: rgba(167,139,250,0.1); }
+.s .cat.admin .dot { background: var(--cat-admin); box-shadow: 0 0 12px rgba(167,139,250,0.8); }
+.s .cat.ctx   { color: var(--cat-ctx);   border-color: rgba(96,165,250,0.4);  background: rgba(96,165,250,0.1); }
+.s .cat.ctx .dot   { background: var(--cat-ctx);   box-shadow: 0 0 12px rgba(96,165,250,0.8); }
+.s .cat.grill { color: var(--cat-grill); border-color: rgba(245,158,11,0.4);  background: rgba(245,158,11,0.1); }
+.s .cat.grill .dot { background: var(--cat-grill); box-shadow: 0 0 12px rgba(245,158,11,0.8); }
+
+/* ── Panes — two-column slide bodies ────────────────────────────────────── */
+.s .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; width: 100%; }
+.s .pane {
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-top: 3px solid rgba(124,58,237,0.7);
+  border-radius: 0 0 16px 16px;
+  padding: 1rem 1.15rem;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  text-align: left;
+}
+.s .pane-h {
+  font-size: 1.1rem; font-weight: 800; color: #fff;
+  margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.5rem;
+}
+.s .pane p { font-size: 0.92rem; margin: 0; }
+.s .point { color: #fbbf24; font-size: 0.85rem; font-weight: 700; margin-top: 0.7rem; }
+
+/* ── Mono blocks ─────────────────────────────────────────────────────────── */
+.s .mono {
+  font-family: 'Consolas','Fira Code',monospace;
+  font-size: 0.8rem; line-height: 1.5;
+  color: rgba(255,255,255,0.75);
+}
+.s .slash {
+  display: inline-block;
+  font-family: 'Consolas','Fira Code',monospace;
+  font-size: 1.5rem; font-weight: 700; color: #c4b5fd;
+  background: rgba(124,58,237,0.18);
+  border: 1px solid rgba(124,58,237,0.4);
+  border-radius: 10px; padding: 0.4rem 1.1rem;
+}

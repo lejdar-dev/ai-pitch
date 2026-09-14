@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="cs"><head><meta charset="utf-8"><link rel="stylesheet" href="resources/slides-common.css"><link rel="stylesheet" href="resources/course-effects.css"><link rel="stylesheet" href="resources/pitch-fe.css"><style>
+.s .cycle { display:flex; flex-direction:column; gap:.5rem; width:100%; max-width:920px }
+.s .crow { display:flex; align-items:center; gap:.55rem; opacity:0; transform:translateY(12px); transition:all .45s ease }
+.s .crow.on { opacity:1; transform:none }
+.s .tagab { width:24px; height:24px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:900; color:#0c0a1c; background:rgba(255,255,255,.55) }
+.s .nd { font-size:.9rem; font-weight:700; color:rgba(255,255,255,.82); background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:.5rem .85rem; white-space:nowrap }
+.s .nd.ok { border-color:rgba(74,222,128,.45); background:rgba(74,222,128,.1); color:#fff }
+.s .nd.rule { border-color:rgba(245,158,11,.55); background:rgba(245,158,11,.14); color:#fff; box-shadow:0 0 26px rgba(245,158,11,.28) }
+.s .ar { color:rgba(255,255,255,.3) }
+.s .eq { color:rgba(255,255,255,.45); font-weight:800; font-size:.9rem }
+.s .miss { font-size:.68rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#fbbf24; border:1px dashed rgba(245,158,11,.5); border-radius:25px; padding:.15rem .55rem }
+.s .claim { opacity:0; transform:translateY(12px); transition:all .5s ease; font-size:1.35rem; font-weight:800; color:#fff; text-align:center; max-width:900px; margin:.9rem 0 .2rem; line-height:1.5 }
+.s .claim.on { opacity:1; transform:none }
+.s .claim span { color:#fbbf24 }
+.s .rf { display:flex; align-items:center; justify-content:center; gap:.6rem; width:100%; max-width:1080px; margin-top:.8rem; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1); border-top:3px solid var(--cat-learn); border-radius:0 0 16px 16px; padding:.9rem 1.15rem }
+.s .branches { display:flex; flex-direction:column; gap:.5rem; flex:1 }
+.s .br { display:flex; align-items:center; gap:.6rem }
+.s .brl { font-size:.85rem; font-weight:700; white-space:nowrap; min-width:132px }
+.s .br.good .brl { color:#4ade80 } .s .br.bad .brl { color:#f87171 }
+.s .track { flex:1; height:12px; border-radius:6px; background:rgba(255,255,255,.06); overflow:hidden }
+.s .track .pf { display:block; height:100%; border-radius:6px; transition:width .6s cubic-bezier(.4,0,.2,1) }
+.s .br.good .pf { background:linear-gradient(90deg,#4ade80,rgba(74,222,128,.35)); box-shadow:0 0 15px rgba(74,222,128,.4) }
+.s .br.bad .pf { background:linear-gradient(90deg,#f87171,rgba(248,113,113,.35)); box-shadow:0 0 15px rgba(248,113,113,.4) }
+.s .pct { font-size:.8rem; font-weight:800; color:rgba(255,255,255,.6); min-width:42px; text-align:right }
+.s .wants { display:flex; flex-direction:column; gap:.3rem; margin-left:.6rem; flex-shrink:0 }
+.s .wants .wh { font-size:.66rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:.1rem }
+.s .want { font-size:.72rem; font-weight:700; color:#86efac; background:rgba(74,222,128,.1); border:1px solid rgba(74,222,128,.32); border-radius:25px; padding:.2rem .6rem; white-space:nowrap }
+.s .want small { font-weight:400; color:rgba(255,255,255,.5) }
+.s .rf-h { font-size:.66rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); width:100%; text-align:center; margin-bottom:.15rem }
+.s .rfbar { display:flex; gap:.4rem; justify-content:center; margin-top:.55rem }
+.s .rfbar .btn { font-size:.72rem; padding:.24rem .85rem }
+</style></head><body><div class="s wf" id="sl">
+<div class="wfhdr"><span>1 Jak pracujeme</span><span>2 Jak v tom figuruje AI</span><span class="on">3 Kde plánujeme lepší integraci</span></div>
+<h2>🔁 Learning: učení trvá dlouho a dnes ho zahazujeme</h2>
+<div class="cycle">
+  <div class="crow" id="r1"><span class="tagab">A</span><span class="nd">Zadání</span><span class="ar">→</span><span class="nd">Výsledek</span></div>
+  <div class="crow" id="r2"><span class="tagab">B</span><span class="nd">Výsledek + Korekce</span><span class="ar">→</span><span class="nd ok">Korektní výsledek</span></div>
+  <div class="crow" id="r3"><span class="tagab">A+B</span><span class="nd">A</span><span class="eq">+</span><span class="nd">B</span><span class="eq">=</span><span class="nd rule">zápis do pravidel</span><span class="miss">dnes chybí</span></div>
+</div>
+<p class="claim" id="claim">„Tvrdím, že <span>ztrácíme velký kus práce</span> investovaný do učení modelu.“</p>
+<div class="rf">
+  <span class="nd">počáteční stav</span><span class="ar">→</span><span class="nd">instrukce</span><span class="ar">→</span>
+  <div class="branches">
+    <div class="rf-h">Reinforcement</div>
+    <div class="br good"><span class="brl">chtěný stav</span><span class="track"><span class="pf" id="fgood" style="width:55%"></span></span><span class="pct" id="pgood">55 %</span></div>
+    <div class="br bad"><span class="brl">nechtěný stav</span><span class="track"><span class="pf" id="fbad" style="width:45%"></span></span><span class="pct" id="pbad">45 %</span></div>
+  </div>
+  <div class="wants">
+    <span class="wh">U chtěné větve chci, aby model:</span>
+    <span class="want">reinforcoval <small>opravit pouze jednou</small></span>
+    <span class="want">rozuměl <small>aby mě pochopil</small></span>
+    <span class="want">generalizoval <small>aby si ukládal general</small></span>
+  </div>
+</div>
+<div class="rfbar"><button class="btn on" data-r="off">bez uloženého pravidla</button><button class="btn" data-r="on">s pravidlem</button></div>
+<div class="stepbar"><div class="dots"><i class="on"></i><i></i><i></i><i></i></div><span id="hint">klik kamkoli odkrývá cyklus učení</span></div>
+</div><script src="resources/randomize-anim.js"></script><script>
+var rows = ['r1', 'r2', 'r3']
+var dots = document.querySelectorAll('.dots i')
+var step = 0
+
+function render() {
+  rows.forEach(function (id, n) { document.getElementById(id).classList.toggle('on', n < step) })
+  document.getElementById('claim').classList.toggle('on', step >= 4)
+  dots.forEach(function (d, n) { d.classList.toggle('on', n < step) })
+  document.getElementById('hint').textContent =
+    step >= 4 ? 'přepínač vpravo dole: co udělá uložené pravidlo' : 'klik kamkoli odkrývá cyklus učení'
+}
+
+document.addEventListener('click', function () { step = step >= 4 ? 0 : step + 1; render() })
+
+var RATIO = { off: 55, on: 90 }
+document.querySelectorAll('[data-r]').forEach(function (b) {
+  b.addEventListener('click', function (e) {
+    e.stopPropagation()
+    var g = RATIO[b.getAttribute('data-r')]
+    document.querySelectorAll('[data-r]').forEach(function (o) { o.classList.toggle('on', o === b) })
+    document.getElementById('fgood').style.width = g + '%'
+    document.getElementById('fbad').style.width = 100 - g + '%'
+    document.getElementById('pgood').textContent = g + ' %'
+    document.getElementById('pbad').textContent = 100 - g + ' %'
+  })
+})
+render()
+</script></body></html>

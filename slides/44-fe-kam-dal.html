@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="cs"><head><meta charset="utf-8"><link rel="stylesheet" href="resources/slides-common.css"><link rel="stylesheet" href="resources/course-effects.css"><link rel="stylesheet" href="resources/pitch-fe.css"><style>
+.s .cols3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem; width:100%; max-width:1180px }
+.s .cc { background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.1); border-top:3px solid; border-radius:0 0 16px 16px; padding:.95rem 1.1rem; text-align:left; cursor:pointer; transition:all .3s ease; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px) }
+.s .cc:hover { transform:translateY(-3px); box-shadow:0 12px 35px rgba(0,0,0,.4) }
+.s .cc.admin { border-top-color:var(--cat-admin) }
+.s .cc.ctx { border-top-color:var(--cat-ctx) }
+.s .cc.grill { border-top-color:var(--cat-grill) }
+.s .cc h4 { font-size:1.1rem; display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem }
+.s .cc .dot { width:10px; height:10px; border-radius:50% }
+.s .cc.admin .dot { background:var(--cat-admin); box-shadow:0 0 12px rgba(167,139,250,.8) }
+.s .cc.ctx .dot { background:var(--cat-ctx); box-shadow:0 0 12px rgba(96,165,250,.8) }
+.s .cc.grill .dot { background:var(--cat-grill); box-shadow:0 0 12px rgba(245,158,11,.8) }
+.s .lin { display:flex; gap:.5rem; font-size:.85rem; line-height:1.5; padding:.3rem 0 }
+.s .lin span:first-child { flex-shrink:0; width:78px; font-size:.66rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding-top:.15rem }
+.s .lin.now span:first-child { color:rgba(255,255,255,.35) }
+.s .lin.next span:first-child { color:#fbbf24 }
+.s .lin p { margin:0; font-size:.85rem }
+.s .lin.next p { color:rgba(255,255,255,.85) }
+.s .steps3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; width:100%; max-width:1180px; margin-top:1.1rem }
+.s .st { display:flex; gap:.7rem; align-items:flex-start; background:rgba(245,158,11,.07); border:1px solid rgba(245,158,11,.28); border-radius:14px; padding:.7rem .9rem; text-align:left }
+.s .st .n { width:28px; height:28px; font-size:.85rem; margin:0; background:linear-gradient(135deg,#f59e0b,#fbbf24); box-shadow:0 0 18px rgba(245,158,11,.4) }
+.s .st b { display:block; font-size:.9rem; color:#fff }
+.s .st small { font-size:.76rem; color:rgba(255,255,255,.55); line-height:1.45 }
+.s .ask { margin-top:1.1rem; max-width:1180px; width:100%; background:rgba(124,58,237,.08); border:2px solid rgba(124,58,237,.28); border-radius:16px; padding:.85rem 1.1rem }
+.s .ask p { font-size:1rem; margin:0; color:rgba(255,255,255,.8) }
+.s .ask .todo { color:rgba(255,255,255,.4) }
+</style></head><body><div class="s wf">
+<div class="wfhdr"><span>1 Jak pracujeme</span><span>2 Jak v tom figuruje AI</span><span class="on">3 Kde plánujeme lepší integraci</span></div>
+<h2>🚀 Kam dál: kde jsme a kam to chceme posunout</h2>
+<div class="cols3">
+  <div class="cc admin" data-go="40">
+    <h4><span class="dot"></span>Administrativa</h4>
+    <div class="lin now"><span>kde jsme</span><p>Jira i DevOps jde obsloužit promptem, <code>/ticket-to-pr</code> běží u mě.</p></div>
+    <div class="lin next"><span>kam chceme</span><p>Stejný postup napsaný jednou pro celý tým, ne per člověk.</p></div>
+  </div>
+  <div class="cc ctx" data-go="41">
+    <h4><span class="dot"></span>Context engineering</h4>
+    <div class="lin now"><span>kde jsme</span><p>Jira, Figma, swagger a browser přes MCP; injected docs v alza-fe-shared.</p></div>
+    <div class="lin next"><span>kam chceme</span><p>NPM injected docs jako standard napříč Alzou, ne výjimka v jednom repu.</p></div>
+  </div>
+  <div class="cc grill" data-go="42">
+    <h4><span class="dot"></span>Grillování</h4>
+    <div class="lin now"><span>kde jsme</span><p>Agent se doptává a dokumentujeme jen to, co z kódu nevyčteš.</p></div>
+    <div class="lin next"><span>kam chceme</span><p>Z otázek rovnou akceptační testy — ATDD jako forma zadání.</p></div>
+  </div>
+</div>
+<div class="steps3">
+  <div class="st"><div class="n">1</div><div><b>NPM injected docs napříč Alzou</b><small>Balíčky nesou vlastní dokumentaci a skill, který na ni ukáže.</small></div></div>
+  <div class="st"><div class="n">2</div><div><b>Pilot ATDD na jedné featuře</b><small>Grillování skončí sadou akceptačních testů, ne odstavcem textu.</small></div></div>
+  <div class="st"><div class="n">3</div><div><b>Sdílení naučených pravidel</b><small>Korekce se ukládají jako pravidla a putují mezi repozitáři.</small></div></div>
+</div>
+<div class="ask"><p>🙋 Co potřebuju od vás: <span class="todo">[k doplnění: rozhodnutí / čas / lidi — co přesně chceš od publika]</span></p></div>
+</div><script src="resources/randomize-anim.js"></script><script>
+document.querySelectorAll('[data-go]').forEach(function (el) {
+  el.addEventListener('click', function () {
+    if (window.parent !== window) window.parent.location.hash = '#' + el.getAttribute('data-go')
+  })
+})
+</script></body></html>

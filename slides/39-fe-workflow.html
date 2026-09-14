@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="cs"><head><meta charset="utf-8"><link rel="stylesheet" href="resources/slides-common.css"><link rel="stylesheet" href="resources/course-effects.css"><link rel="stylesheet" href="resources/pitch-fe.css"><style>
+.s .body { display:flex; align-items:center; gap:2rem; width:100%; max-width:1320px }
+.s .wfwrap { flex:1; position:relative; padding:0 .25rem }
+.s .chain { display:flex; align-items:center; justify-content:center; gap:.35rem }
+.s .node {
+  position:relative; white-space:nowrap;
+  background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.16);
+  border-radius:12px; padding:.8rem 1.05rem;
+  font-size:1.02rem; font-weight:700; color:rgba(255,255,255,.85);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  transition:all .45s ease; cursor:default;
+}
+.s .node .dim { font-weight:400; color:rgba(255,255,255,.45); font-size:.85rem }
+.s .ar { color:rgba(255,255,255,.3); font-size:1.1rem; transition:opacity .45s ease }
+.s .col-agent { position:relative; display:flex; justify-content:center }
+.s .feeders {
+  position:absolute; top:calc(100% + 26px); left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; gap:.35rem; align-items:center;
+}
+.s .feeders::before {
+  content:''; position:absolute; top:-24px; left:50%; width:2px; height:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(96,165,250,.55));
+}
+.s .feed {
+  white-space:nowrap; font-size:.84rem; font-weight:700; color:rgba(255,255,255,.6);
+  background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.12);
+  border-radius:25px; padding:.28rem .7rem; transition:all .45s ease;
+}
+.s .loop-top, .s .loop-bot { display:flex; justify-content:center; position:relative }
+.s .bracket { position:relative; height:30px; border:2px dashed rgba(255,255,255,.14) }
+.s .loop-top .bracket { width:100%; border-bottom:none; border-radius:12px 12px 0 0; margin-bottom:.4rem }
+.s .loop-bot .bracket { width:330px; border-top:none; border-radius:0 0 12px 12px; margin-top:.4rem }
+.s .loop-bot { justify-content:flex-end; padding-right:2.5rem }
+.s .chip {
+  position:absolute; left:50%; transform:translate(-50%,-50%);
+  font-size:.75rem; font-weight:800; letter-spacing:.06em;
+  color:rgba(255,255,255,.5); background:#0c0a1c;
+  border:1px solid rgba(255,255,255,.14); border-radius:25px; padding:.2rem .7rem;
+  transition:all .35s ease;
+}
+.s .loop-top .chip { top:0 }
+.s .loop-bot .chip { top:100% }
+.s .loop-top .chip { cursor:pointer }
+.s .loop-top .chip:hover { color:var(--cat-learn); border-color:rgba(74,222,128,.45) }
+.s .legend { width:268px; display:flex; flex-direction:column; gap:.6rem; opacity:0; pointer-events:none; transition:opacity .5s ease }
+.s .legend .lh { font-size:.72rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3) }
+.s .legend small { display:block; font-weight:400; font-size:.76rem; color:rgba(255,255,255,.45); letter-spacing:0; text-transform:none }
+.s .cat { font-size:.88rem; flex-direction:column; align-items:flex-start; gap:.15rem; padding:.6rem .85rem; border-radius:4px 12px 12px 4px }
+.s .cat .top-line { display:flex; align-items:center; gap:.5rem }
+
+/* State 2 — only the nodes where I am actually needed */
+.s.st2 .node:not(.me), .s.st2 .feed { opacity:.22; filter:grayscale(1) }
+.s.st2 .ar { opacity:.3 }
+.s.st2 .node.me {
+  border-color:#f59e0b; color:#fff; background:rgba(245,158,11,.14);
+  box-shadow:0 0 28px rgba(245,158,11,.28); transform:scale(1.06);
+}
+.s.st2 .node.me::before {
+  content:'já'; position:absolute; top:-11px; right:-9px;
+  font-size:.62rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+  color:#0c0a1c; background:#fbbf24; border-radius:25px; padding:.1rem .45rem;
+}
+/* State 3 — the three disciplines of my work */
+.s.st3 .node[data-cat="admin"] { border-color:var(--cat-admin); background:rgba(167,139,250,.14); color:#fff }
+.s.st3 .node[data-cat="ctx"], .s.st3 .feed { border-color:var(--cat-ctx); background:rgba(96,165,250,.14); color:#fff }
+.s.st3 .node[data-cat="grill"] { border-color:var(--cat-grill); background:rgba(245,158,11,.16); color:#fff; box-shadow:0 0 22px rgba(245,158,11,.2) }
+.s.st3 .node[data-cat="none"] { opacity:.4 }
+.s.st3 .loop-top .chip { color:var(--cat-learn); border-color:rgba(74,222,128,.4); background:rgba(12,10,28,1) }
+.s.st3 .legend { opacity:1; pointer-events:auto }
+</style></head><body><div class="s wf st1" id="sl">
+<div class="wfhdr"><span id="h1" class="on">1 Jak pracujeme</span><span id="h2">2 Jak v tom figuruje AI</span><span id="h3">3 Kde plánujeme lepší integraci</span></div>
+<h2 id="title">Každá featura vzniká tak, že musím projít každým krokem.</h2>
+<div class="body">
+  <div class="wfwrap">
+    <div class="loop-top"><div class="bracket"><span class="chip" data-go="43" data-tip="Learning — z korekcí by se měla stávat trvalá pravidla. O tom je poslední část.">↺ Learning</span></div></div>
+    <div class="chain">
+      <div class="node" data-cat="none" data-tip="Business přinese potřebu — zadání vzniká mimo tým.">Business</div>
+      <span class="ar">→</span>
+      <div class="node" data-cat="admin" data-tip="Ticket, komentáře, popisky, přesouvání — práce, která nepřidává hodnotu, ale musí se udělat.">Agile / Ticket</div>
+      <span class="ar">→</span>
+      <div class="col-agent">
+        <div class="node" data-cat="ctx" data-tip="Agent je jen tak dobrý, jak dobrý kontext mu zpřístupním.">Agent</div>
+        <div class="feeders">
+          <span class="feed" data-tip="Design jako zdroj pravdy o UI — přes MCP rovnou do kontextu agenta.">🎨 Figma</span>
+          <span class="feed" data-tip="Sdílené komponenty a lokální dokumentace v node_modules.">📦 AlzaFeShared</span>
+        </div>
+      </div>
+      <span class="ar">→</span>
+      <div class="node me" data-cat="grill" data-tip="Agent se ptá tak dlouho, dokud v zadání zůstane díra.">Grill <span class="dim">(with docs)</span></div>
+      <span class="ar">→</span>
+      <div class="node" data-cat="none" data-tip="Samotné psaní kódu — tady už z velké části pracuje agent.">Implementace</div>
+      <span class="ar">→</span>
+      <div class="node me" data-cat="admin" data-tip="Rozhodnutí, co je ještě v pořádku — a friendly PR, které jde přečíst.">Review / peer</div>
+    </div>
+    <div class="loop-bot"><div class="bracket"><span class="chip">↻ testing</span></div></div>
+  </div>
+  <div class="legend">
+    <div class="lh">Disciplíny mojí práce</div>
+    <div class="cat admin" data-go="40"><div class="top-line"><span class="dot"></span>Administrativa</div><small>Jira, DevOps, PR — o rozhraní méně</small></div>
+    <div class="cat ctx" data-go="41"><div class="top-line"><span class="dot"></span>Context engineering</div><small>Jira, Figma, swagger, browser, docs</small></div>
+    <div class="cat grill" data-go="42"><div class="top-line"><span class="dot"></span>Grillování</div><small>Otravuj mě, dokud tam bude díra</small></div>
+  </div>
+</div>
+<div class="stepbar"><div class="dots"><i class="on"></i><i></i><i></i></div><span id="hint">klik kamkoli → kde v tom figuruje AI</span></div>
+</div><script src="resources/randomize-anim.js"></script><script>
+var sl = document.getElementById('sl')
+var STATES = [
+  { title: 'Každá featura vzniká tak, že musím projít každým krokem.', hint: 'klik kamkoli → kde v tom figuruje AI', head: 0 },
+  { title: '…ale potřeba jsem jen tady.', hint: 'klik kamkoli → dělení na tři disciplíny', head: 1 },
+  { title: 'Tři disciplíny, do kterých se moje práce dělí.', hint: 'klik na kategorii vpravo → příslušná část', head: 1 }
+]
+var heads = [document.getElementById('h1'), document.getElementById('h2'), document.getElementById('h3')]
+var dots = document.querySelectorAll('.dots i')
+var i = 0
+
+function render() {
+  var st = STATES[i]
+  sl.className = 's wf st' + (i + 1)
+  document.getElementById('title').textContent = st.title
+  document.getElementById('hint').textContent = st.hint
+  heads.forEach(function (h, n) { h.classList.toggle('on', n === st.head) })
+  dots.forEach(function (d, n) { d.classList.toggle('on', n === i) })
+}
+
+document.addEventListener('click', function () { i = (i + 1) % STATES.length; render() })
+document.querySelectorAll('[data-go]').forEach(function (el) {
+  el.addEventListener('click', function (e) {
+    e.stopPropagation()
+    if (window.parent !== window) window.parent.location.hash = '#' + el.getAttribute('data-go')
+  })
+})
+render()
+</script></body></html>

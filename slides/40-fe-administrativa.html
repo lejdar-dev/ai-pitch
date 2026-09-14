@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="cs"><head><meta charset="utf-8"><link rel="stylesheet" href="resources/slides-common.css"><link rel="stylesheet" href="resources/course-effects.css"><link rel="stylesheet" href="resources/pitch-fe.css"><style>
+.s .two { max-width:1240px; align-items:start }
+.s .pane { border-top-color:var(--cat-admin) }
+.s .jira { display:grid; grid-template-columns:200px 1fr; gap:.85rem; align-items:start }
+.s .prompts { display:flex; flex-direction:column; gap:.35rem }
+.s .prompts .btn { text-align:left; font-size:.78rem; font-weight:600; padding:.34rem .7rem }
+.s .prompts .btn.on { background:rgba(74,222,128,.14); border-color:rgba(74,222,128,.4); color:#4ade80 }
+.s .prompts .lh, .s .cmp-h { font-size:.66rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:.35rem }
+.s .ticket { background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:.6rem .75rem; min-height:186px }
+.s .tk-top { display:flex; justify-content:space-between; align-items:center; font-size:.68rem; font-weight:800; letter-spacing:.06em }
+.s .tk-id { color:#60a5fa }
+.s .tk-state { color:rgba(255,255,255,.4); border:1px solid rgba(255,255,255,.14); border-radius:25px; padding:.1rem .5rem }
+.s .tk-title { font-size:.92rem; font-weight:700; color:#fff; margin:.35rem 0 }
+.s .tk-line { display:flex; justify-content:space-between; font-size:.74rem; color:rgba(255,255,255,.4); border-top:1px solid rgba(255,255,255,.07); padding-top:.3rem }
+.s .tk-line b { color:#fff; font-weight:700 }
+.s .tk-labels { display:flex; gap:.3rem; flex-wrap:wrap; margin:.3rem 0 }
+.s .tk-labels span { font-size:.66rem; font-weight:700; color:#c4b5fd; background:rgba(124,58,237,.18); border:1px solid rgba(124,58,237,.3); border-radius:25px; padding:.08rem .45rem }
+.s .tk-feed { margin-top:.4rem; display:flex; flex-direction:column; gap:.3rem }
+.s .tk-item { font-size:.74rem; line-height:1.45; color:rgba(255,255,255,.72); background:rgba(255,255,255,.04); border-left:2px solid var(--cat-admin); border-radius:0 6px 6px 0; padding:.3rem .5rem; animation:lc-fadeUp .4s ease }
+.s .tk-item b { color:#fff }
+.s .devops { list-style:none; padding:0; margin:0 0 .7rem; counter-reset:d }
+.s .devops li { display:flex; gap:.6rem; align-items:baseline; font-size:.88rem; color:rgba(255,255,255,.7); padding:.2rem 0; counter-increment:d }
+.s .devops li::before { content:counter(d); flex-shrink:0; width:20px; height:20px; border-radius:50%; background:rgba(167,139,250,.2); border:1px solid rgba(167,139,250,.45); color:#c4b5fd; font-size:.68rem; font-weight:800; display:flex; align-items:center; justify-content:center }
+.s .cmp { background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:.6rem .75rem; min-height:120px }
+.s .cm { display:none }
+.s .cm.on { display:block }
+.s .cm .mono { white-space:pre-wrap }
+.s .cm.bad .mono { color:rgba(248,113,113,.85) }
+.s .cm.good .mono { color:rgba(74,222,128,.85) }
+.s .switch { display:flex; gap:.4rem; margin-top:.5rem }
+.s .switch .btn { font-size:.72rem; padding:.24rem .8rem }
+.s .t2pr { width:100%; max-width:1240px; margin-top:.9rem; display:flex; align-items:center; gap:1.25rem; background:rgba(124,58,237,.06); border:1px solid rgba(124,58,237,.22); border-radius:16px; padding:.75rem 1.1rem; cursor:pointer; transition:all .3s ease }
+.s .t2pr:hover { border-color:rgba(124,58,237,.45) }
+.s .tl { display:flex; align-items:center; gap:.5rem; flex:1 }
+.s .tls { flex:1; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:.4rem .6rem; text-align:center }
+.s .tls b { display:block; font-size:.82rem; color:#fff }
+.s .tls small { display:none; font-size:.68rem; line-height:1.4; color:rgba(255,255,255,.45); margin-top:.15rem }
+.s .t2pr.open .tls small { display:block; animation:lc-fadeUp .35s ease }
+.s .tl .ar { color:rgba(255,255,255,.3) }
+.s .exp { font-size:.68rem; color:rgba(255,255,255,.3); white-space:nowrap }
+</style></head><body><div class="s wf">
+<div class="wfhdr"><span>1 Jak pracujeme</span><span class="on">2 Jak v tom figuruje AI</span><span>3 Kde plánujeme lepší integraci</span></div>
+<h2>🗂️ Administrativa: práce, která nepřidává hodnotu</h2>
+<div class="two">
+  <div class="pane">
+    <div class="pane-h"><span>📋</span>Jira — komentáře, požadavky, přesouvání</div>
+    <div class="jira">
+      <div class="prompts">
+        <div class="lh">Typické prompty</div>
+        <button class="btn" data-do="tests">přidej test casy</button>
+        <button class="btn" data-do="warn">přidej upozornění</button>
+        <button class="btn" data-do="labels">doplň popisky</button>
+        <button class="btn" data-do="assign">assign to somebody</button>
+        <button class="btn" data-do="ask">ask for something</button>
+      </div>
+      <div class="ticket">
+        <div class="tk-top"><span class="tk-id">BUYLINK-1423</span><span class="tk-state">In progress</span></div>
+        <div class="tk-title">Filtr kategorií v našeptávači</div>
+        <div class="tk-labels" id="tklabels"></div>
+        <div class="tk-line"><span>Assignee</span><b id="tkasg">—</b></div>
+        <div class="tk-feed" id="tkfeed"></div>
+      </div>
+    </div>
+    <p class="point">→ o jedno rozhraní, se kterým se musím potýkat, méně</p>
+  </div>
+  <div class="pane">
+    <div class="pane-h"><span>⚙️</span>DevOps</div>
+    <ol class="devops">
+      <li><span><strong>Vytváření popisků</strong> — popis PR a work itemu vzniká z diffu, ne z hlavy.</span></li>
+      <li><span><strong>Debugování</strong> — proč pipeline padá a která změna to způsobila.</span></li>
+      <li><span><strong>Friendly PR</strong> — review, které jde přečíst bez archeologie.</span></li>
+    </ol>
+    <div class="cmp-h">Commit vs. friendly commit</div>
+    <div class="cmp">
+      <div class="cm bad on" id="cmraw"><div class="mono">fix
+wip
+fix2
+oprava po review</div></div>
+      <div class="cm good" id="cmnice"><div class="mono">fix(buylink): neposílat prázdný filtr kategorií
+
+Našeptávač posílal prázdné pole a API vracelo 400.
+Filtr se teď přidá do dotazu jen když má hodnotu.
+
+- ošetřen prázdný stav ve useCategoryFilter
+- doplněn test na prázdný filtr
+Refs: BUYLINK-1423</div></div>
+    </div>
+    <div class="switch"><button class="btn on" data-t="raw">před</button><button class="btn" data-t="nice">po</button></div>
+  </div>
+</div>
+<div class="t2pr" id="t2pr">
+  <span class="slash">/ticket-to-pr</span>
+  <div class="tl">
+    <div class="tls"><b>ticket</b><small>načte popis, AC a komentáře</small></div><span class="ar">→</span>
+    <div class="tls"><b>větev</b><small>pojmenuje podle konvence týmu</small></div><span class="ar">→</span>
+    <div class="tls"><b>commity</b><small>rozdělí změnu a napíše zprávy</small></div><span class="ar">→</span>
+    <div class="tls"><b>PR</b><small>popis, checklist, reviewery</small></div>
+  </div>
+  <span class="exp">klik rozbalí kroky</span>
+</div>
+</div><script src="resources/randomize-anim.js"></script><script>
+var LABELS = ['frontend', 'buylink', 'needs-design']
+var ACTIONS = {
+  tests: function () {
+    add('<b>Test cases</b><br>☐ prázdný filtr nezmění výsledky<br>☐ dvě kategorie se sečtou<br>☐ filtr přežije reload stránky')
+  },
+  warn: function () {
+    add('<b>⚠️ Upozornění</b><br>Endpoint CMS zatím nevrací neaktivní kategorie — sladit před nasazením.')
+  },
+  labels: function () {
+    var box = document.getElementById('tklabels')
+    box.innerHTML = LABELS.map(function (l) { return '<span>' + l + '</span>' }).join('')
+  },
+  assign: function () { document.getElementById('tkasg').textContent = 'K. Koudelka' },
+  ask: function () {
+    add('<b>❓ Dotaz na PO</b><br>Platí filtr i pro prázdný výsledek hledání, nebo se má skrýt?')
+  }
+}
+
+function add(html) {
+  var el = document.createElement('div')
+  el.className = 'tk-item'
+  el.innerHTML = html
+  document.getElementById('tkfeed').appendChild(el)
+}
+
+document.querySelectorAll('[data-do]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    if (b.classList.contains('on')) return
+    b.classList.add('on')
+    ACTIONS[b.getAttribute('data-do')]()
+  })
+})
+
+document.querySelectorAll('[data-t]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    document.querySelectorAll('[data-t]').forEach(function (o) { o.classList.toggle('on', o === b) })
+    var pick = b.getAttribute('data-t')
+    document.getElementById('cmraw').classList.toggle('on', pick === 'raw')
+    document.getElementById('cmnice').classList.toggle('on', pick === 'nice')
+  })
+})
+
+var t2pr = document.getElementById('t2pr')
+t2pr.addEventListener('click', function () {
+  t2pr.classList.toggle('open')
+  t2pr.querySelector('.exp').textContent = t2pr.classList.contains('open') ? 'klik sbalí kroky' : 'klik rozbalí kroky'
+})
+</script></body></html>

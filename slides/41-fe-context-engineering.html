@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="cs"><head><meta charset="utf-8"><link rel="stylesheet" href="resources/slides-common.css"><link rel="stylesheet" href="resources/course-effects.css"><link rel="stylesheet" href="resources/pitch-fe.css"><style>
+.s .hub { display:flex; align-items:center; justify-content:center; gap:3.6rem; width:100%; max-width:1000px }
+.s .srcs { display:flex; flex-direction:column; gap:.7rem }
+.s .src {
+  position:relative; cursor:pointer; white-space:nowrap;
+  font-size:1rem; font-weight:700; color:rgba(255,255,255,.75);
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12);
+  border-left:3px solid var(--cat-ctx); border-radius:4px 12px 12px 4px;
+  padding:.62rem 1rem; transition:all .3s ease;
+}
+.s .src:hover { background:rgba(96,165,250,.12); border-color:rgba(96,165,250,.45); transform:translateY(-2px) }
+.s .src.hl { border-color:rgba(245,158,11,.5); border-left-color:var(--cat-grill); background:rgba(245,158,11,.1); color:#fff }
+.s .srcs.l .src::after, .s .srcs.r .src::before {
+  content:''; position:absolute; top:50%; width:48px; height:2px;
+  background:linear-gradient(90deg,rgba(96,165,250,.55),rgba(96,165,250,.1));
+}
+.s .srcs.l .src::after { right:-48px }
+.s .srcs.r .src::before { left:-48px; background:linear-gradient(270deg,rgba(96,165,250,.55),rgba(96,165,250,.1)) }
+.s .agent {
+  width:150px; height:150px; border-radius:50%; flex-shrink:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.1rem;
+  background:radial-gradient(circle at 30% 25%,rgba(124,58,237,.45),rgba(124,58,237,.12));
+  border:2px solid rgba(124,58,237,.5); box-shadow:0 0 45px rgba(124,58,237,.35);
+  font-size:.95rem; font-weight:800; color:#fff;
+}
+.s .agent span.ic { font-size:2.8rem; line-height:1 }
+.s .srcinfo { font-size:.9rem; color:rgba(255,255,255,.55); min-height:1.4rem; margin:.9rem 0 .5rem; text-align:center }
+.s .srcinfo b { color:#fff }
+.s .npm { width:100%; max-width:1180px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1); border-top:3px solid var(--cat-ctx); border-radius:0 0 16px 16px; padding:.85rem 1.15rem }
+.s .npm-top { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:.6rem }
+.s .npm-h { font-size:1.05rem; font-weight:800; color:#fff }
+.s .badges { display:flex; gap:.5rem }
+.s .bdg { font-size:.72rem; font-weight:700; border-radius:25px; padding:.25rem .7rem; white-space:nowrap }
+.s .bdg.done { color:#4ade80; background:rgba(74,222,128,.12); border:1px solid rgba(74,222,128,.35) }
+.s .bdg.call { color:#0c0a1c; background:linear-gradient(135deg,#fbbf24,#f59e0b); border:1px solid rgba(245,158,11,.6); box-shadow:0 0 22px rgba(245,158,11,.35); font-weight:800 }
+.s .schema { display:none; align-items:center; gap:.5rem; flex-wrap:wrap; justify-content:center }
+.s .schema.on { display:flex; animation:lc-fadeUp .35s ease }
+.s .sn { font-size:.82rem; font-weight:700; color:rgba(255,255,255,.8); background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.14); border-radius:10px; padding:.45rem .75rem; text-align:center }
+.s .sn.mono { font-family:'Consolas','Fira Code',monospace; font-size:.78rem; color:#c4b5fd }
+.s .sn.skill { border-color:rgba(96,165,250,.5); background:rgba(96,165,250,.12); color:#fff }
+.s .sn.no { border-color:rgba(248,113,113,.45); background:rgba(248,113,113,.1); color:rgba(255,255,255,.8); text-decoration:line-through; text-decoration-color:rgba(248,113,113,.8) }
+.s .sn.agt { border-color:rgba(124,58,237,.5); background:rgba(124,58,237,.16); color:#fff }
+.s .ar { color:rgba(255,255,255,.3) }
+.s .snote { font-size:.78rem; color:rgba(255,255,255,.45); margin:.55rem 0 0; text-align:center }
+.s .snote b { color:#fff }
+.s .switch { display:flex; gap:.4rem; justify-content:center; margin-top:.6rem }
+.s .switch .btn { font-size:.72rem; padding:.24rem .85rem }
+.s .overlay { display:none; position:fixed; inset:0; z-index:40; background:rgba(4,3,10,.82); align-items:center; justify-content:center; padding:2rem }
+.s .overlay.on { display:flex; animation:lc-fadeUp .3s ease }
+.s .ovbox { max-width:900px; width:100%; background:rgba(16,12,34,.96); border:1px solid rgba(124,58,237,.4); border-radius:20px; padding:1.5rem 1.75rem; box-shadow:0 30px 80px rgba(0,0,0,.7) }
+.s .ovbox h4 { font-size:1.3rem; margin-bottom:1rem; text-align:center }
+.s .vid { text-align:center }
+.s .vh { font-size:.8rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.45rem }
+.s .vh.bad { color:#f87171 } .s .vh.good { color:#4ade80 }
+.s .ph { height:130px; display:flex; align-items:center; justify-content:center; font-size:.8rem; color:rgba(255,255,255,.35); background:rgba(0,0,0,.45); border:1px dashed rgba(255,255,255,.2); border-radius:12px }
+.s .vid p { font-size:.85rem; margin:.5rem 0 0 }
+.s .take { font-size:.92rem; color:rgba(255,255,255,.75); margin:1rem 0 0; text-align:center }
+.s .cls { display:block; font-size:.7rem; color:rgba(255,255,255,.3); text-align:center; margin-top:.75rem }
+</style></head><body><div class="s wf">
+<div class="wfhdr"><span>1 Jak pracujeme</span><span class="on">2 Jak v tom figuruje AI</span><span>3 Kde plánujeme lepší integraci</span></div>
+<h2>🧠 Context engineering: čím agenta napojím na realitu</h2>
+<div class="hub">
+  <div class="srcs l">
+    <div class="src" data-info="<b>Jira:</b> zadání, acceptance criteria a historie diskuze — proč se to dělá takhle.">🗂️ Jira</div>
+    <div class="src" data-info="<b>Figma:</b> komponenty, tokeny a stavy UI přímo z designu, ne z popisu po telefonu.">🎨 Figma</div>
+  </div>
+  <div class="agent"><span class="ic">🤖</span>Agent</div>
+  <div class="srcs r">
+    <div class="src" data-info="<b>Swagger:</b> skutečný kontrakt API — typy, chybové odpovědi a hraniční hodnoty.">📘 swagger</div>
+    <div class="src hl" data-video data-info="<b>Browser:</b> agent si výsledek sám otevře a ověří — klikni pro srovnání.">🌐 browser <span style="opacity:.7">▶</span></div>
+  </div>
+</div>
+<p class="srcinfo" id="srcinfo">Klikni na zdroj — co z něj agent bere.</p>
+<div class="npm">
+  <div class="npm-top">
+    <div class="npm-h">📦 NPM Injected Docs</div>
+    <div class="badges"><span class="bdg done">✅ Adoptováno v alza-fe-shared</span><span class="bdg call">📣 Adopt it, ALZA!</span></div>
+  </div>
+  <div class="schema on" id="sc-ours">
+    <span class="sn mono">node_modules/@alza/react-ui</span><span class="ar">→</span>
+    <span class="sn">lokální dokumentace</span><span class="ar">→</span>
+    <span class="sn skill mono">skill alza-design-system-tokens</span><span class="ar">→</span>
+    <span class="sn agt">🤖 agent</span>
+  </div>
+  <div class="schema" id="sc-naive">
+    <span class="sn mono">node_modules/@alza/react-ui</span><span class="ar">→</span>
+    <span class="sn no mono">instrukce přímo do AGENTS.md</span><span class="ar">→</span>
+    <span class="sn agt">🤖 agent</span>
+  </div>
+  <p class="snote" id="snote">Balík <b>neinjektuje instrukce do AGENTS.md</b>. Místo toho skill agentovi řekne, že lokální dokumentace v <code>node_modules</code> existuje — a ten si ji přečte, když ji potřebuje.</p>
+  <div class="switch"><button class="btn on" data-v="ours">jak to děláme (skill + lokální docs)</button><button class="btn" data-v="naive">jak by to šlo naivně (instrukce v AGENTS.md)</button></div>
+</div>
+<div class="overlay" id="ov"><div class="ovbox">
+  <h4>🌐 Iterace s browserem a bez něj</h4>
+  <div class="two">
+    <div class="vid"><div class="vh bad">bez browseru</div><div class="ph">[k doplnění: video]</div><p>Agent výsledek nevidí. Chybu najde až člověk a posílá ji zpátky — kolečko se opakuje.</p></div>
+    <div class="vid"><div class="vh good">s <code>@playwright/mcp</code></div><div class="ph">[k doplnění: video]</div><p>Agent si stránku sám otevře, chybu uvidí a opraví se ještě předtím, než se na to podívám.</p></div>
+  </div>
+  <p class="take">Co z toho má člověk, který nedělá frontend: ubyde kolečko „pošli screenshot, popiš chybu, počkej“ — a nemusí u toho vědět, co je VS Code.</p>
+  <span class="cls">klik zavře</span>
+</div></div>
+</div><script src="resources/randomize-anim.js"></script><script>
+var info = document.getElementById('srcinfo')
+document.querySelectorAll('.src').forEach(function (el) {
+  el.addEventListener('click', function () {
+    document.querySelectorAll('.src').forEach(function (o) { o.style.outline = '' })
+    info.innerHTML = el.getAttribute('data-info')
+    if (el.hasAttribute('data-video')) document.getElementById('ov').classList.add('on')
+  })
+})
+
+var ov = document.getElementById('ov')
+ov.addEventListener('click', function () { ov.classList.remove('on') })
+
+var NOTES = {
+  ours: 'Balík <b>neinjektuje instrukce do AGENTS.md</b>. Místo toho skill agentovi řekne, že lokální dokumentace v <code>node_modules</code> existuje — a ten si ji přečte, když ji potřebuje.',
+  naive: 'Naivní varianta: každý balík si píše do <b>AGENTS.md</b>. Instrukce narostou, zaberou kontext a zastarají — i když je nikdo nepotřebuje.'
+}
+document.querySelectorAll('[data-v]').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var v = b.getAttribute('data-v')
+    document.querySelectorAll('[data-v]').forEach(function (o) { o.classList.toggle('on', o === b) })
+    document.getElementById('sc-ours').classList.toggle('on', v === 'ours')
+    document.getElementById('sc-naive').classList.toggle('on', v === 'naive')
+    document.getElementById('snote').innerHTML = NOTES[v]
+  })
+})
+</script></body></html>
