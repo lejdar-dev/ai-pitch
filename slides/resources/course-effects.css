@@ -1,0 +1,436 @@
+/* ==========================================================================
+   AI do hloubky — Auto-playing presentation effects (NO hover, NO mouse)
+   Pure idle animations for slide deck viewing.
+   ========================================================================== */
+
+/* ── Animated aurora gradient behind slides ── */
+.s {
+  position: relative;
+  overflow: hidden;
+}
+.s::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.12;
+  background: radial-gradient(ellipse at 20% 50%, #7c3aed 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, #f59e0b 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, #a78bfa 0%, transparent 50%);
+  background-size: 200% 200%;
+  animation: lc-aurora 90s ease-in-out infinite;
+  animation-delay: var(--aurora-delay, 0s);
+  pointer-events: none;
+}
+/* Content above background */
+.s > * { position: relative; z-index: 1; }
+
+@keyframes lc-aurora {
+  0%, 100% { background-position: 0% 0%; }
+  25%      { background-position: 100% 0%; }
+  50%      { background-position: 100% 100%; }
+  75%      { background-position: 0% 100%; }
+}
+
+/* ── Floating dust particles ── */
+.s::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.22;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(168,133,250,.6), transparent),
+    radial-gradient(1px 1px at 25% 45%, rgba(245,158,11,.5), transparent),
+    radial-gradient(1.5px 1.5px at 40% 70%, rgba(168,133,250,.7), transparent),
+    radial-gradient(1px 1px at 55% 25%, rgba(245,158,11,.4), transparent),
+    radial-gradient(1.5px 1.5px at 70% 60%, rgba(168,133,250,.6), transparent),
+    radial-gradient(1px 1px at 85% 35%, rgba(245,158,11,.5), transparent),
+    radial-gradient(1px 1px at 15% 80%, rgba(34,211,238,.4), transparent),
+    radial-gradient(1.5px 1.5px at 60% 10%, rgba(168,133,250,.5), transparent),
+    radial-gradient(1px 1px at 90% 75%, rgba(245,158,11,.6), transparent),
+    radial-gradient(1px 1px at 35% 90%, rgba(168,133,250,.4), transparent),
+    radial-gradient(1.5px 1.5px at 75% 45%, rgba(34,211,238,.5), transparent),
+    radial-gradient(1px 1px at 5% 55%, rgba(245,158,11,.4), transparent);
+  background-size: 300% 300%;
+  animation: lc-particles 120s linear infinite;
+  animation-delay: var(--particles-delay, 0s);
+  pointer-events: none;
+}
+@keyframes lc-particles {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* ── h2 heading — breathing glow ── */
+.s h2 {
+  animation: lc-glow 3s ease-in-out infinite;
+}
+@keyframes lc-glow {
+  0%, 100% { text-shadow: 0 0 10px rgba(168,133,250,.3), 0 0 20px rgba(168,133,250,.1); }
+  50%      { text-shadow: 0 0 20px rgba(168,133,250,.5), 0 0 40px rgba(168,133,250,.2), 0 0 60px rgba(245,158,11,.1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ENTRANCE ANIMATIONS — staggered, fire on slide load, no hover
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Grid cards (.c / .b) ── */
+.s .c, .s .b {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .c:nth-child(1), .s .b:nth-child(1) { animation-delay: 0.05s; }
+.s .c:nth-child(2), .s .b:nth-child(2) { animation-delay: 0.15s; }
+.s .c:nth-child(3), .s .b:nth-child(3) { animation-delay: 0.25s; }
+.s .c:nth-child(4), .s .b:nth-child(4) { animation-delay: 0.35s; }
+.s .c:nth-child(5), .s .b:nth-child(5) { animation-delay: 0.45s; }
+.s .c:nth-child(6), .s .b:nth-child(6) { animation-delay: 0.55s; }
+.s .c:nth-child(7), .s .b:nth-child(7) { animation-delay: 0.65s; }
+.s .c:nth-child(8), .s .b:nth-child(8) { animation-delay: 0.75s; }
+
+/* ── Tool cards ── */
+.s .tool, .s .tools > * {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .tool:nth-child(1), .s .tools > *:nth-child(1) { animation-delay: 0.1s; }
+.s .tool:nth-child(2), .s .tools > *:nth-child(2) { animation-delay: 0.25s; }
+.s .tool:nth-child(3), .s .tools > *:nth-child(3) { animation-delay: 0.4s; }
+.s .tool:nth-child(4), .s .tools > *:nth-child(4) { animation-delay: 0.55s; }
+.s .tool:nth-child(5), .s .tools > *:nth-child(5) { animation-delay: 0.7s; }
+.s .tool:nth-child(6), .s .tools > *:nth-child(6) { animation-delay: 0.85s; }
+
+/* ── Mode / pillar cards ── */
+.s .modes > *, .s .pillars > * {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .modes > *:nth-child(1), .s .pillars > *:nth-child(1) { animation-delay: 0.1s; }
+.s .modes > *:nth-child(2), .s .pillars > *:nth-child(2) { animation-delay: 0.3s; }
+.s .modes > *:nth-child(3), .s .pillars > *:nth-child(3) { animation-delay: 0.5s; }
+
+/* ── Trend cards ── */
+.s .trends > *, .s .trend {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .trends > *:nth-child(1), .s .trend:nth-child(1) { animation-delay: 0.1s; }
+.s .trends > *:nth-child(2), .s .trend:nth-child(2) { animation-delay: 0.25s; }
+.s .trends > *:nth-child(3), .s .trend:nth-child(3) { animation-delay: 0.4s; }
+.s .trends > *:nth-child(4), .s .trend:nth-child(4) { animation-delay: 0.55s; }
+
+/* ── Risk cards ── */
+.s .risk {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .risk:nth-child(1) { animation-delay: 0.1s; }
+.s .risk:nth-child(2) { animation-delay: 0.25s; }
+.s .risk:nth-child(3) { animation-delay: 0.4s; }
+.s .risk:nth-child(4) { animation-delay: 0.55s; }
+.s .risk:nth-child(5) { animation-delay: 0.7s; }
+.s .risk:nth-child(6) { animation-delay: 0.85s; }
+
+/* ── Bias grid ── */
+.s .bias > *, .s .bias-grid > * {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .bias > *:nth-child(1), .s .bias-grid > *:nth-child(1) { animation-delay: 0.1s; }
+.s .bias > *:nth-child(2), .s .bias-grid > *:nth-child(2) { animation-delay: 0.25s; }
+.s .bias > *:nth-child(3), .s .bias-grid > *:nth-child(3) { animation-delay: 0.4s; }
+.s .bias > *:nth-child(4), .s .bias-grid > *:nth-child(4) { animation-delay: 0.55s; }
+
+/* ── Step cards ── */
+.s .steps > * {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .steps > *:nth-child(1) { animation-delay: 0.1s; }
+.s .steps > *:nth-child(2) { animation-delay: 0.3s; }
+.s .steps > *:nth-child(3) { animation-delay: 0.5s; }
+.s .steps > *:nth-child(4) { animation-delay: 0.7s; }
+
+/* ── Flow / phase ── */
+.s .flow > * {
+  opacity: 0;
+  animation: lc-fadeUp 0.4s ease forwards;
+}
+.s .flow > *:nth-child(1) { animation-delay: 0.1s; }
+.s .flow > *:nth-child(2) { animation-delay: 0.25s; }
+.s .flow > *:nth-child(3) { animation-delay: 0.4s; }
+.s .flow > *:nth-child(4) { animation-delay: 0.55s; }
+.s .flow > *:nth-child(5) { animation-delay: 0.7s; }
+
+/* ── Scene cards ── */
+.s .scene {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .scene:nth-child(1) { animation-delay: 0.1s; }
+.s .scene:nth-child(2) { animation-delay: 0.25s; }
+.s .scene:nth-child(3) { animation-delay: 0.4s; }
+.s .scene:nth-child(4) { animation-delay: 0.55s; }
+
+/* ── Pattern cards (left slide-in) ── */
+.s .pat {
+  opacity: 0;
+  animation: lc-slideLeft 0.5s ease forwards;
+}
+.s .pat:nth-child(1) { animation-delay: 0.1s; }
+.s .pat:nth-child(2) { animation-delay: 0.25s; }
+.s .pat:nth-child(3) { animation-delay: 0.4s; }
+.s .pat:nth-child(4) { animation-delay: 0.55s; }
+
+/* ── Comparison columns ── */
+.s .comparison > * {
+  opacity: 0;
+  animation: lc-fadeUp 0.6s ease forwards;
+}
+.s .comparison > *:nth-child(1) { animation-delay: 0.2s; }
+.s .comparison > *:nth-child(2) { animation-delay: 0.5s; }
+
+/* ── Key-value stat cards ── */
+.s .kv > * {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .kv > *:nth-child(1) { animation-delay: 0.2s; }
+.s .kv > *:nth-child(2) { animation-delay: 0.4s; }
+.s .kv > *:nth-child(3) { animation-delay: 0.6s; }
+.s .kv > *:nth-child(4) { animation-delay: 0.8s; }
+
+/* ── Stat row ── */
+.s .stat-row > * {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .stat-row > *:nth-child(1) { animation-delay: 0.15s; }
+.s .stat-row > *:nth-child(2) { animation-delay: 0.35s; }
+.s .stat-row > *:nth-child(3) { animation-delay: 0.55s; }
+
+/* ── Parts breakdown ── */
+.s .parts > * {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .parts > *:nth-child(1) { animation-delay: 0.1s; }
+.s .parts > *:nth-child(2) { animation-delay: 0.25s; }
+.s .parts > *:nth-child(3) { animation-delay: 0.4s; }
+.s .parts > *:nth-child(4) { animation-delay: 0.55s; }
+
+/* ── Row layout children ── */
+.s.s-row > div {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s.s-row > div:nth-child(1) { animation-delay: 0.1s; }
+.s.s-row > div:nth-child(2) { animation-delay: 0.3s; }
+
+/* ── Definition box ── */
+.s .def {
+  opacity: 0;
+  animation: lc-fadeUp 0.6s ease 0.3s forwards;
+}
+
+/* ── Box / callout / big-feature ── */
+.s .box, .s .bigf {
+  opacity: 0;
+  animation: lc-fadeUp 0.6s ease 0.5s forwards;
+}
+
+/* ── Explain block ── */
+.s .explain {
+  opacity: 0;
+  animation: lc-fadeUp 0.6s ease 0.2s forwards;
+}
+
+/* ── Quote (slide-left) ── */
+.s .quote {
+  opacity: 0;
+  animation: lc-slideLeft 0.6s ease 0.3s forwards;
+}
+
+/* ── Warn / info banners ── */
+.s .warn, .s .info {
+  opacity: 0;
+  animation: lc-slideLeft 0.5s ease 0.2s forwards;
+}
+
+/* ── Subtitle / message ── */
+.s .sub, .s .msg {
+  opacity: 0;
+  animation: lc-fadeUp 0.7s ease 0.15s forwards;
+}
+
+/* ── Tags row ── */
+.s .tags span {
+  opacity: 0;
+  animation: lc-fadeUp 0.4s ease forwards;
+}
+.s .tags span:nth-child(1) { animation-delay: 0.3s; }
+.s .tags span:nth-child(2) { animation-delay: 0.42s; }
+.s .tags span:nth-child(3) { animation-delay: 0.54s; }
+.s .tags span:nth-child(4) { animation-delay: 0.66s; }
+.s .tags span:nth-child(5) { animation-delay: 0.78s; }
+.s .tags span:nth-child(6) { animation-delay: 0.9s; }
+
+/* ── Links row ── */
+.s .links span {
+  opacity: 0;
+  animation: lc-fadeUp 0.4s ease forwards;
+}
+.s .links span:nth-child(1) { animation-delay: 0.3s; }
+.s .links span:nth-child(2) { animation-delay: 0.45s; }
+.s .links span:nth-child(3) { animation-delay: 0.6s; }
+
+/* ── Presenter slide ── */
+.s .presenter-name {
+  opacity: 0;
+  animation: lc-fadeUp 0.6s ease 0.15s forwards;
+}
+.s .role {
+  opacity: 0;
+  animation: lc-fadeUp 0.6s ease 0.35s forwards;
+}
+.s .bio {
+  opacity: 0;
+  animation: lc-fadeUp 0.6s ease 0.55s forwards;
+}
+
+/* ── Closing slide ── */
+.s .vision {
+  opacity: 0;
+  animation: lc-fadeUp 0.8s ease 0.2s forwards;
+}
+.s .closing {
+  opacity: 0;
+  animation: lc-fadeUp 0.8s ease 0.4s forwards;
+}
+
+/* ── VCard (used in closing/vision slides) ── */
+.s .vcard {
+  opacity: 0;
+  animation: lc-fadeUp 0.5s ease forwards;
+}
+.s .vcard:nth-child(1) { animation-delay: 0.15s; }
+.s .vcard:nth-child(2) { animation-delay: 0.35s; }
+.s .vcard:nth-child(3) { animation-delay: 0.55s; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   IDLE LOOP ANIMATIONS — breathing, pulsing, floating (infinite)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Section icon bounce ── */
+.s .sec-icon {
+  display: inline-block;
+  animation: lc-bounce 2s ease-in-out infinite;
+}
+@keyframes lc-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* ── Title slide stat numbers pulse ── */
+.s .meta .num {
+  animation: lc-numPulse 2.5s ease-in-out infinite;
+}
+@keyframes lc-numPulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(168,133,250,0); }
+  50%      { box-shadow: 0 0 20px rgba(168,133,250,.3), 0 0 40px rgba(168,133,250,.1); }
+}
+
+/* ── Number circles gentle pulse ── */
+.s .num, .s .n {
+  animation: lc-numGlow 3s ease-in-out infinite;
+}
+@keyframes lc-numGlow {
+  0%, 100% { box-shadow: 0 0 25px rgba(124,58,237,0.5); }
+  50%      { box-shadow: 0 0 35px rgba(124,58,237,0.7), 0 0 60px rgba(168,133,250,0.3); }
+}
+
+/* ── Big number breathing ── */
+.s .big-num {
+  animation: lc-bigNumBreathe 3s ease-in-out infinite;
+}
+@keyframes lc-bigNumBreathe {
+  0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 8px rgba(245,158,11,.3)); }
+  50%      { opacity: 1;    filter: drop-shadow(0 0 18px rgba(245,158,11,.5)); }
+}
+
+/* ── Footer breathing ── */
+.s .foot {
+  animation: lc-footBreathe 3s ease-in-out infinite;
+}
+@keyframes lc-footBreathe {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.6; }
+}
+
+/* ── Tokens subtle sparkle ── */
+.s .tok  { animation: lc-tokSpark 4s ease-in-out infinite; }
+.s .tok2 { animation: lc-tokSpark 4s ease-in-out 0.5s infinite; }
+.s .tok3 { animation: lc-tokSpark 4s ease-in-out 1s infinite; }
+@keyframes lc-tokSpark {
+  0%, 100% { box-shadow: 0 0 2px rgba(168,133,250,.3); }
+  30%      { box-shadow: 0 0 8px rgba(168,133,250,.6); }
+  60%      { box-shadow: 0 0 2px rgba(168,133,250,.3); }
+}
+
+/* ── Scale fill bars — grow on entrance ── */
+.s .fill {
+  animation: lc-fillGrow 1s ease-out forwards;
+  width: 0 !important;
+}
+@keyframes lc-fillGrow {
+  to { width: var(--fill-width, 100%); }
+}
+/* width classes for fill bars */
+.s .fill.w-90 { --fill-width: 90%; }
+.s .fill.w-80 { --fill-width: 80%; }
+.s .fill.w-75 { --fill-width: 75%; }
+.s .fill.w-70 { --fill-width: 70%; }
+.s .fill.w-65 { --fill-width: 65%; }
+.s .fill.w-60 { --fill-width: 60%; }
+.s .fill.w-50 { --fill-width: 50%; }
+.s .fill.w-40 { --fill-width: 40%; }
+.s .fill.w-30 { --fill-width: 30%; }
+.s .fill.w-25 { --fill-width: 25%; }
+.s .fill.w-20 { --fill-width: 20%; }
+
+/* ── Val (stat value) breathing ── */
+.s .val {
+  animation: lc-valBreathe 3.5s ease-in-out infinite;
+}
+@keyframes lc-valBreathe {
+  0%, 100% { transform: scale(1);   text-shadow: 0 0 8px rgba(245,158,11,.2); }
+  50%      { transform: scale(1.03); text-shadow: 0 0 16px rgba(245,158,11,.4); }
+}
+
+/* ── Image / icon soft float ── */
+.s .icon, .s .big {
+  animation: lc-softFloat 4s ease-in-out infinite;
+}
+@keyframes lc-softFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* ── Badge breathing ── */
+.s .badge, .s .best, .s .price {
+  animation: lc-badgeBreathe 3s ease-in-out infinite;
+}
+@keyframes lc-badgeBreathe {
+  0%, 100% { opacity: 0.8; }
+  50%      { opacity: 1; }
+}
+
+/* ── Section pill pulse ── */
+.s .sec {
+  animation: lc-secPulse 2.5s ease-in-out infinite;
+}
+@keyframes lc-secPulse {
+  0%, 100% { border-color: rgba(245,158,11,.25); }
+  50%      { border-color: rgba(245,158,11,.45); }
+}
